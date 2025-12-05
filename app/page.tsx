@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { StrangerThingsHero } from "@/components/ui/svg-mask-effect";
+import { StrangerThingsTitle } from "@/components/ui/stranger-things-title";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
@@ -21,20 +22,21 @@ export default function Home() {
         <div className="relative z-10 flex flex-col items-center justify-between h-full px-4 sm:px-6 lg:px-8 pointer-events-auto">
           {/* Top Content */}
           <div className="text-center space-y-3 sm:space-y-6 pt-12 sm:pt-16 lg:pt-20 max-w-4xl">
-            <motion.h1
-              key={isUpsideDown ? "upside-down-title" : "normal-title"}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold drop-shadow-[0_0_30px_rgba(220,38,38,0.8)] tracking-[0.2em] sm:tracking-[0.3em] uppercase leading-tight animate-pulse-subtle"
-              style={{
-                fontFamily: "Georgia, serif",
-                color: isUpsideDown ? "#dc2626" : "#dc2626",
-              }}
-            >
-              {isUpsideDown ? "The Upside Down" : "Stranger Things"}
-            </motion.h1>
-            <div className="h-px w-24 sm:w-32 md:w-48 bg-gradient-to-r from-transparent via-red-600 to-transparent mx-auto opacity-60" />
+            <div className="relative z-20">
+              {isUpsideDown ? (
+                <StrangerThingsTitle
+                  line1="THE UPSIDE"
+                  line2="DOWN"
+                  className="animate-pulse-subtle"
+                />
+              ) : (
+                <StrangerThingsTitle
+                  line1="STRANGER"
+                  line2="RAM"
+                  className="animate-pulse-subtle"
+                />
+              )}
+            </div>
             <motion.p
               key={isUpsideDown ? "upside-down-desc" : "normal-desc"}
               initial={{ opacity: 0 }}
