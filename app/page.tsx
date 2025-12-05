@@ -12,10 +12,10 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-black font-sans">
+    <main className="min-h-dvh bg-black font-sans">
       <StrangerThingsHero
         normalImage="/images/hero-normal.png"
-        upsideDownImage="/images/hero-upside-down.png"
+        upsideDownImage="/images/hero-upside-down-cropped.png"
         isUpsideDown={isUpsideDown}
       >
         <div className="relative z-10 flex flex-col items-center justify-between h-full px-4 sm:px-6 lg:px-8 pointer-events-auto">

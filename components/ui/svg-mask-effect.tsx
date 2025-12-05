@@ -62,17 +62,19 @@ export const StrangerThingsHero = ({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="absolute inset-0 w-full h-full bg-cover bg-center"
-                    style={{ backgroundImage: `url(${baseImage})` }}
-                />
+                    className="absolute inset-0 w-full h-full"
+                >
+                    <img
+                        src={baseImage}
+                        alt="Background"
+                        className="w-full h-full object-cover object-center"
+                    />
+                </motion.div>
             </AnimatePresence>
 
             {/* Layer 2: Reveal Image (Masked by cursor) */}
             <motion.div
-                className="absolute inset-0 w-full h-full bg-cover bg-center pointer-events-none"
-                style={{
-                    backgroundImage: `url(${revealImage})`,
-                }}
+                className="absolute inset-0 w-full h-full pointer-events-none"
                 animate={{
                     WebkitMaskImage: mousePosition
                         ? `radial-gradient(circle 300px at ${mousePosition.x}px ${mousePosition.y}px, black 40%, transparent 100%)`
@@ -82,7 +84,13 @@ export const StrangerThingsHero = ({
                         : "radial-gradient(circle 0px at 0px 0px, black 0%, transparent 100%)",
                 } as any}
                 transition={{ type: "tween", ease: "backOut", duration: 0.1 }}
-            />
+            >
+                <img
+                    src={revealImage}
+                    alt="Reveal"
+                    className="w-full h-full object-cover object-center"
+                />
+            </motion.div>
 
             {/* Glitch overlay effect during transition */}
             <AnimatePresence>
