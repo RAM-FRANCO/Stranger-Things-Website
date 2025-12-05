@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Libre_Baskerville } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,10 +13,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const libreBaskerville = Libre_Baskerville({
-  weight: ["400", "700"],
-  variable: "--font-libre-baskerville",
-  subsets: ["latin"],
+const benguiat = localFont({
+  src: "../public/fonts/BenguiatBold.ttf",
+  variable: "--font-benguiat",
+});
+
+const strangerOutline = localFont({
+  src: "../public/fonts/StrangerThingsOutlined.ttf",
+  variable: "--font-stranger-outline",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${libreBaskerville.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${benguiat.variable} ${strangerOutline.variable} antialiased`}
       >
         {children}
       </body>

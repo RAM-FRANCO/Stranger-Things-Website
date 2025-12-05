@@ -9,6 +9,7 @@ export const StrangerThingsHero = ({
     className,
     children,
     isUpsideDown = false,
+    isActive = false,
     onToggle,
 }: {
     normalImage: string;
@@ -16,6 +17,7 @@ export const StrangerThingsHero = ({
     className?: string;
     children?: React.ReactNode;
     isUpsideDown?: boolean;
+    isActive?: boolean;
     onToggle?: () => void;
 }) => {
     const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
@@ -105,10 +107,92 @@ export const StrangerThingsHero = ({
                 )}
             </AnimatePresence>
 
+            {/* Dimensional Glitch Effect (Flashes the other world) */}
+            <DimensionalGlitch image={revealImage} isActive={isActive} />
+
             {/* Content Overlay */}
             <div className="absolute inset-0 z-20 pointer-events-none">
                 {children}
             </div>
         </div>
+    );
+};
+
+const DimensionalGlitch = ({ image, isActive }: { image: string; isActive: boolean }) => {
+    const [triggerKey, setTriggerKey] = useState(0);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    useEffect(() => {
+        if (!isActive) return;
+
+        audioRef.current = new Audio("/audio/lightning.mp3");
+        audioRef.current.volume = 0.6;
+
+        const triggerGlitch = () => {
+            // Play audio
+            if (audioRef.current) {
+                audioRef.current.currentTime = 0;
+                audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+            }
+
+            // Trigger animation
+            setTriggerKey(prev => prev + 1);
+
+            // Chance for a double flash (30%)
+            if (Math.random() < 0.3) {
+                setTimeout(() => {
+                    setTriggerKey(prev => prev + 1);
+                }, 150);
+            }
+
+            // Schedule next glitch (Natural pacing: 8s - 20s)
+            const nextGlitch = Math.random() * 12000 + 8000;
+            setTimeout(triggerGlitch, nextGlitch);
+        };
+
+        const timeout = setTimeout(triggerGlitch, 4000);
+        return () => clearTimeout(timeout);
+    }, [isActive]);
+
+    return (
+        <AnimatePresence>
+            {triggerKey > 0 && (
+                <>
+                    {/* Frame 2: Bright Flash (Reveal Counterpart World) */}
+                    <motion.div
+                        key={`flash-${triggerKey}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: [0, 1, 1, 0] }}
+                        transition={{
+                            duration: 0.2,
+                            times: [0, 0.1, 0.4, 1], // Fast in, hold briefly, fast out
+                            ease: "linear"
+                        }}
+                        className="absolute inset-0 z-30 pointer-events-none"
+                    >
+                        <img
+                            src={image}
+                            alt="Dimensional Glitch"
+                            className="w-full h-full object-cover object-center filter brightness-150 contrast-125"
+                        />
+                        {/* White overlay for extra brightness punch */}
+                        <div className="absolute inset-0 bg-white/20 mix-blend-overlay" />
+                    </motion.div>
+
+                    {/* Frame 3: Quick Darkening Fade (Eye Adaptation) */}
+                    <motion.div
+                        key={`dark-${triggerKey}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: [0, 0, 0.4, 0] }}
+                        transition={{
+                            duration: 0.4,
+                            times: [0, 0.4, 0.5, 1], // Starts after flash fades
+                            ease: "easeOut"
+                        }}
+                        className="absolute inset-0 z-40 pointer-events-none bg-black"
+                    />
+                </>
+            )}
+        </AnimatePresence>
     );
 };
