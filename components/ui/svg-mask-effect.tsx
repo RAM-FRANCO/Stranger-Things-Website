@@ -80,7 +80,7 @@ export const StrangerThingsHero = ({
                     maskImage: mousePosition
                         ? `radial-gradient(circle 300px at ${mousePosition.x}px ${mousePosition.y}px, black 40%, transparent 100%)`
                         : "radial-gradient(circle 0px at 0px 0px, black 0%, transparent 100%)",
-                }}
+                } as any}
                 transition={{ type: "tween", ease: "backOut", duration: 0.1 }}
             />
 
